@@ -42,6 +42,7 @@
               <span class="sr-only">Stuff in intestine</span>
             </div>
           </div>
+          <h3 id="message"></h3>
         </div>
       </div>
     </div>
@@ -57,7 +58,8 @@
           context: document.body
         }).done(function(data) {
           $('#stuff_in_belly').css('width', data.stuff_in_belly*10+'%').attr('aria-valuenow', data.stuff_in_belly);
-          $('#stuff_in_intestine').css('width', data.stuff_in_intestine*10+'%').attr('aria-valuenow', data.stuff_in_intestine);  
+          $('#stuff_in_intestine').css('width', data.stuff_in_intestine*10+'%').attr('aria-valuenow', data.stuff_in_intestine);
+          $('#message').text(data.message);
         });
 
 
@@ -70,7 +72,8 @@
             }).done(function(data) {
               console.log(data);
               $('#stuff_in_belly').css('width', data.stuff_in_belly*10+'%').attr('aria-valuenow', data.stuff_in_belly);
-              $('#stuff_in_intestine').css('width', data.stuff_in_intestine*10+'%').attr('aria-valuenow', data.stuff_in_intestine); 
+              $('#stuff_in_intestine').css('width', data.stuff_in_intestine*10+'%').attr('aria-valuenow', data.stuff_in_intestine);
+              $('#message').text(data.message);
             });
           })
         }

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Tamagotchi</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+      .row-flex {
+        display: flex;
+      }
+      .progress-wrap {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row row-flex">
+        <div class="col-md-8">
+          <h1 id="heading" class="text-center">Tamagotchi</h1>
+          <div class="tamagotchi">
+            <img src="/images/happy.png" class="img-responsive center-block" width="360">
+          </div>
+          <div class="btn-group" role="group" aria-label="...">
+            <a href="/feed" id="feed" class="btn btn-success">Feed</a>
+            <a href="/walk" id="walk" class="btn btn-primary">Walk</a>
+            <a href="/put_to_bed" id="put_to_bed" class="btn btn-default">Put to bed</a>
+            <a href="/toss" id="toss" class="btn btn-danger">Toss</a>
+            <a href="/rock" id="rock" class="btn btn-success">Rock</a>
+          </div>
+        </div>
+        <div class="progress-wrap col-md-4">
+          <div class="progress">
+            <div id="stuff_in_belly" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10">
+              <span class="sr-only">Stuff in belly</span>
+            </div>
+          </div>
+          <div class="progress">
+            <div id="stuff_in_intestine" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10">
+              <span class="sr-only">Stuff in intestine</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script>
+
+      $(document).ready(function() {
+        
+        $.ajax({
+          url: 'index.json',
+          context: document.body
+        }).done(function(data) {
+          $('#stuff_in_belly').css('width', data.stuff_in_belly*10+'%').attr('aria-valuenow', data.stuff_in_belly);
+          $('#stuff_in_intestine').css('width', data.stuff_in_intestine*10+'%').attr('aria-valuenow', data.stuff_in_intestine);  
+        });
+
+
+        function petHandler(selector, path) {
+          $(selector).on('click', function(e) {
+            e.preventDefault();
+            $.ajax({
+              url: path,
+              context: document.body
+            }).done(function(data) {
+              console.log(data);
+              $('#stuff_in_belly').css('width', data.stuff_in_belly*10+'%').attr('aria-valuenow', data.stuff_in_belly);
+              $('#stuff_in_intestine').css('width', data.stuff_in_intestine*10+'%').attr('aria-valuenow', data.stuff_in_intestine); 
+            });
+          })
+        }
+
+        petHandler('#feed', '/feed.json');
+        petHandler('#walk', '/walk.json');
+        petHandler('#put_to_bed', '/put_to_bed.json');
+        petHandler('#toss', '/toss.json');
+        petHandler('#rock', '/rock.json');
+
+      })
+
+    </script>
+  </body>
+</html>
